@@ -1,29 +1,35 @@
 <template>
   <div class="home">
-    <p ref="p">My name is {{ name }} and I am {{ age }} years old.</p>
-    <button @click="handleClick">click me</button>
-    <button @click="age++">add 1 to age</button>
-    <input type="text" v-model="name" />
+    <p>Home</p>
+    <input type="text" v-model="search" />
+    <p>{{ search }}</p>
+    <div v-for="name in matchingNames" :key="name">{{ name }}</div>
+    <button @click="handleClick">stop watching</button>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
-
-// @ is an alias to /src
+import { computed, ref, watch } from "vue";
 
 export default {
   name: "HomeView",
   setup() {
-    // const p = ref(null);
-    const name = ref("mario");
-    const age = ref(30);
+    const search = ref("");
+    const names = ref(["mario", "luigi", "peach", "bowser"]);
+
+    const stopWatching = watch(search, () => {
+      console.log("watch function ran");
+    });
+
     const handleClick = () => {
-      name.value = "Luigi";
-      age.value = 29;
+      stopWatching();
     };
 
-    return { name, age, handleClick };
+    const matchingNames = computed(() => {
+      return names.value.filter((name) => name.includes(search.value));
+    });
+
+    return { names, search, matchingNames, handleClick };
   },
 };
 </script>
