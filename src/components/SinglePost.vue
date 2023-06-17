@@ -1,8 +1,10 @@
 <template>
   <div class="post">
-    <h3>{{ post.title }}</h3>
+    <router-link :to="{ name: 'Details', params: { id: post.id } }">
+      <h3>{{ post.title }}</h3>
+    </router-link>
     <p>{{ snippet }}</p>
-    <span v-for="tag in post.tags" :key="tag">#{{ tag }}</span>
+    <span class="pill" v-for="tag in post.tags" :key="tag">#{{ tag }}</span>
   </div>
 </template>
 
@@ -20,4 +22,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.pill {
+  background: #ddd;
+  border-radius: 14px;
+  margin: auto 5px;
+  padding: 7px;
+}
+</style>
